@@ -6,6 +6,7 @@ Aplicação .Net core 2.0 utilizando JWT para autenticação e autorização de 
 Este projeto é um estudo geral sobre a utilização de JWT em projetos Dot Net Core (2.0).
 
 Nesta página existe uma visão geral sobre a construção do projeto. Para mais detalhes, acesse o link: 
+https://drive.google.com/file/d/1DbK_AE-9-D1MYZdyxsHXLkZzsJBgbcrG/view?usp=sharing
 
 A seguir está uma descrição dos itens necessários é um *top level description* de sua funcionalidade. Acompanhe a descrição navegando entre as classes. 
 
