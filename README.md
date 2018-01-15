@@ -12,7 +12,7 @@ https://drive.google.com/file/d/1DbK_AE-9-D1MYZdyxsHXLkZzsJBgbcrG/view?usp=shari
 
 
 
-#### JWT 
+### JWT 
 
 JWT (Json Web token) é um padrão aberto que permite o envio de informações via HTTP HEADER ou POST entre duas partes (Cliente / Servidor) em um formato JSON.
 As informações enviadas neste Token podem ser validadas devido a sua "assinatura" digital, gerada por meio de um código "secrete" com algoritmo HMAC ou chaves publica/privada usando RSA.
@@ -20,20 +20,20 @@ As informações enviadas neste Token podem ser validadas devido a sua "assinatu
 Entenda mais neste link: https://jwt.io/
 
 
-#### Configuração
+### Configuração
 
  Neste tutorial é utilizado um projeto .Net Core 2.0
 
  O primeiro passo é acrição de um projeto "ASP.NET Core Web Application" e utlizar o Web API.
  Conforme você estiver lendo os tópicos a baixo, navegue até a pasta e arquivo relacionado. Desta maneira você terá um maior entendimento das configurações.
 
- ##### Entidades/
+ #### Entidades/
  Adicione uma pasta chamada **Entidades** à raiz da aplicação. 
  Crie duas classes dentro desta pasta: Usuario e ObjetoResposta. 
  **Usuario** será utilizado para guardar as informações do usuário logado na aplicação
  **ObjetoResposta** é o objeto padrão de resposta da nossa aplicação.
 
- ##### Controller/
+ #### Controller/
  
  Adicione uma controller chamada UsuarioController. 
  Esta controller será utilizada para Authenticar nossos usuários. *A validação de dados de autenticação está alem do apresentado neste tutorial*.
@@ -44,7 +44,7 @@ Entenda mais neste link: https://jwt.io/
 
  Altere o tipo da resposta das chamadas para enviar um ObjetoResposta. Desta maneira nós padronizamos a resposta para o cliente.
 
- ##### Config/ChaveConfiguracao.cs
+ #### Config/ChaveConfiguracao.cs
 
  Adicione uma pasta chamada **Config** à raiz da aplicação. 
  Esta pasta conterá a classe ChaveConfiguracao.cs.
@@ -56,19 +56,19 @@ Entenda mais neste link: https://jwt.io/
  **TokenConfiguracao** contém as configurações que faremos em appsettings.json. Esta atribuição de valores ocorerá na Startup.cs
 
 
- ##### Appsettings.json
+ #### Appsettings.json
 
  Adicione um objeto **TokenConfigurations** ao arquivo. Nele devemos ter os mesmos campos criados em **TokenConfiguracao.cs**.
  Pois será deste objeto que iremos popular a classe TokenConfigracao.
 
- ##### Startup.cs
+ #### Startup.cs
 
 Ela é responsável por amarrar a configuração da Chave de criptografia e carregamento das configurações de Token e instancia-las como Singleton para a aplicação.
 
 Também fará o papel de definir qual a regra de validação do Token e da criação da regra de autorização para as APIs restritas a usuários autenticados.
 
 
- ###### Config/Autenticacao
+ #### Config/Autenticacao
 
  A classe é responsável por criar o JWT (token).
 
