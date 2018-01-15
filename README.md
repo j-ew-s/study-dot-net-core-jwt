@@ -48,7 +48,7 @@ Entenda mais neste link: https://jwt.io/
 
  Adicione uma pasta chamada **Config** à raiz da aplicação. 
  Esta pasta conterá a classe ChaveConfiguracao.cs.
- Est**ChaveConfiguracao** é responsável por gerar a chave de criptografia do algoritmo JWT.
+ **ChaveConfiguracao** é responsável por gerar a chave de criptografia do algoritmo JWT.
 
  ##### Config/TokenConfiguracao.cs
 
