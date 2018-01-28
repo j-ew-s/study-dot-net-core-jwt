@@ -10,7 +10,8 @@ namespace Study.JWT.API.Config
         private readonly ITokenConfiguration _tokenConfiguration;
         private readonly IChaveConfiguracao _chaveConfiguracao;
 
-        public Autenticacao(IChaveConfiguracao chaveConfiguracao,
+        public Autenticacao(
+            IChaveConfiguracao chaveConfiguracao,
             ITokenConfiguration tokenConfiguration)
         {
             _tokenConfiguration = tokenConfiguration ?? throw new ArgumentNullException(nameof(tokenConfiguration));
