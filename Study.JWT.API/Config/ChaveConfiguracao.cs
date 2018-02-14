@@ -3,10 +3,16 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Study.JWT.API.Config
 {
-    public class ChaveConfiguracao
+    public interface IChaveConfiguracao
     {
-        public SecurityKey Key { get; set; }
-        public SigningCredentials SigningCredentials { get; set; }
+        SecurityKey Key { get; }
+        SigningCredentials SigningCredentials { get; }
+    }
+
+    public class ChaveConfiguracao : IChaveConfiguracao
+    {
+        public SecurityKey Key { get; }
+        public SigningCredentials SigningCredentials { get; }
 
         public ChaveConfiguracao()
         {

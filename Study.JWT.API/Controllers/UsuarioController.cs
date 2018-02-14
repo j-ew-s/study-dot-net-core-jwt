@@ -1,25 +1,26 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using Microsoft.AspNetCore.Mvc;
 using Study.JWT.API.Config;
 using Study.JWT.API.Entidades;
 
 namespace Study.JWT.API.Controllers
 {
-
     [Produces("application/json")]
     [Route("api/Usuario")]
     public class UsuarioController : Controller
     {
-        public UsuarioController()
+        private readonly IAutenticacao _autenticacao;
+
+        public UsuarioController(IAutenticacao autenticacao)
         {
-            
+            _autenticacao = autenticacao ?? throw new ArgumentNullException(nameof(autenticacao));
         }
+
         // GET: api/Usuario
         [HttpGet("Administrador")]
-        public ObjetoResposta GetAdmin([FromServices]ChaveConfiguracao chaveConfig,
-            [FromServices]TokenConfiguracao tokenConfigurations)
+        public ObjetoResposta GetAdmin()
         {
-            var usuario = new Usuario()
+            var usuario = new Usuario
             {
                 Id = 1,
                 Nome = "Gabriel",
@@ -29,15 +30,14 @@ namespace Study.JWT.API.Controllers
             };
 
             
-            return new Autenticacao().ConstroiJwt(usuario, chaveConfig, tokenConfigurations);
+            return _autenticacao.ConstroiJwt(usuario);
         }
 
         // GET: api/Usuario
         [HttpGet("RH")]
-        public ObjetoResposta GetRh([FromServices]ChaveConfiguracao chaveConfig,
-            [FromServices]TokenConfiguracao tokenConfigurations)
+        public ObjetoResposta GetRh()
         {
-            var usuario = new Usuario()
+            var usuario = new Usuario
             {
                 Id = 2,
                 Nome = "Gabriel 2",
@@ -46,16 +46,15 @@ namespace Study.JWT.API.Controllers
                 Senha = "123"
             };
 
-            return new Autenticacao().ConstroiJwt(usuario, chaveConfig, tokenConfigurations);
+            return _autenticacao.ConstroiJwt(usuario);
 
         }
 
         // GET: api/Usuario
         [HttpGet("Desenvolvedor")]
-        public ObjetoResposta GetDev([FromServices]ChaveConfiguracao chaveConfig,
-            [FromServices]TokenConfiguracao tokenConfigurations)
+        public ObjetoResposta GetDev()
         {
-            var usuario = new Usuario()
+            var usuario = new Usuario
             {
                 Id = 3,
                 Nome = "Gabriel 3",
@@ -64,12 +63,12 @@ namespace Study.JWT.API.Controllers
                 Senha = "123"
             };
 
-            return new Autenticacao().ConstroiJwt(usuario, chaveConfig, tokenConfigurations);
+            return _autenticacao.ConstroiJwt(usuario);
 
         }
 
         // GET: api/Usuario/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id:int}", Name = "Get")]
         public string Get(int id)
         {
             return "value";

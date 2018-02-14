@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Study.JWT.API.Config;
 
 namespace Study.JWT.API
@@ -21,17 +16,19 @@ namespace Study.JWT.API
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        private IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        // This method gets called by the runtime. Use this method to add services to the                                                                                                                                                                                                                                                                                                                                                                                                    container.
         public void ConfigureServices(IServiceCollection services)
         {
             var chaveConfig = new ChaveConfiguracao();
-            services.AddSingleton(chaveConfig);
+            services.AddSingleton<IChaveConfiguracao>(chaveConfig);
 
-            var tokenConfig = new TokenConfiguracao();
-            new ConfigureFromConfigurationOptions<TokenConfiguracao>(Configuration.GetSection("TokenConfigurations")).Configure(tokenConfig);
-            services.AddSingleton(tokenConfig);
+            var tokenConfig = new TokenConfiguration();
+            Configuration.GetSection(nameof(TokenConfiguration)).Bind(tokenConfig);
+            services.AddSingleton<ITokenConfiguration>(tokenConfig);
+
+            services.AddTransient<IAutenticacao, Autenticacao>();
 
             services.AddAuthentication(authOptions =>
             {
@@ -54,7 +51,6 @@ namespace Study.JWT.API
                     .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme)
                     .RequireAuthenticatedUser().Build());
             });
-
 
             services.AddMvc();
         }

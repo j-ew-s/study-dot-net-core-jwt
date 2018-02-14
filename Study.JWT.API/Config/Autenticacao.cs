@@ -1,23 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using Study.JWT.API.Entidades;
 
 namespace Study.JWT.API.Config
 {
-    public class Autenticacao
+    public class Autenticacao : IAutenticacao
     {
-        public ObjetoResposta ConstroiJwt(Usuario usuario,
-            [FromServices]ChaveConfiguracao chaveConfig,
-            [FromServices]TokenConfiguracao tokenConfig)
-        {
+        private readonly ITokenConfiguration _tokenConfiguration;
+        private readonly IChaveConfiguracao _chaveConfiguracao;
 
-            DateTime dataCriacao = DateTime.Now;
-            DateTime dataExpiracao = dataCriacao + TimeSpan.FromSeconds(tokenConfig.Seconds);
+        public Autenticacao(
+            IChaveConfiguracao chaveConfiguracao,
+            ITokenConfiguration tokenConfiguration)
+        {
+            _tokenConfiguration = tokenConfiguration ?? throw new ArgumentNullException(nameof(tokenConfiguration));
+            _chaveConfiguracao = chaveConfiguracao ?? throw new ArgumentNullException(nameof(chaveConfiguracao));
+        }
+
+        public ObjetoResposta ConstroiJwt(Usuario usuario)
+        {
+            var dataCriacao = DateTime.UtcNow;
+            var dataExpiracao = dataCriacao + TimeSpan.FromSeconds(_tokenConfiguration.Seconds);
 
             var claims = new[]
             {
@@ -28,23 +32,20 @@ namespace Study.JWT.API.Config
             };
 
             var token = new JwtSecurityToken(
-                issuer: tokenConfig.Issuer,
-                audience: tokenConfig.Audience,
-                claims: claims,
-                notBefore: dataCriacao,
-                expires: dataExpiracao,
-                signingCredentials: chaveConfig.SigningCredentials);
+                _tokenConfiguration.Issuer,
+                _tokenConfiguration.Audience,
+                claims,
+                dataCriacao,
+                dataExpiracao,
+                _chaveConfiguracao.SigningCredentials);
 
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
 
-            var result = new ObjetoResposta()
+            return new ObjetoResposta
             {
                 Usuario = usuario,
                 Token = jwt
             };
-
-            return result;
-
         }
     }
 }

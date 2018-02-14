@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,21 +12,21 @@ namespace Study.JWT.API.Controllers
         [Authorize("Bearer")]
         public IEnumerable<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            return new [] { "value1", "value2" };
         }
 
         [HttpGet("Demandas")]
         [Authorize("Bearer", Roles="Desenvolvedor, Administrador")]
         public IEnumerable<string> GetDemandas()
         {
-            return new string[] { "value1", "value2" };
+            return new [] { "value1", "value2" };
         }
 
         [HttpGet("PLR")]
         [Authorize("Bearer", Roles = "RH")]
         public IEnumerable<string> GetPlr()
         {
-            return new string[] { "value1", "value2" };
+            return new[] { "value1", "value2" };
         }
 
         // GET api/values/5
